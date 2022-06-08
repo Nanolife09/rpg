@@ -1,8 +1,3 @@
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-canvas.width = 1366;
-canvas.height = 768;
-
 var playerImage = new Image();
 playerImage.src = "source/player.png";
 /*
@@ -67,8 +62,4 @@ window.addEventListener("keyup", (e) => {
 			control.movement[key].pressing = false; 
 		break;
 	}
-});
-
-window.addEventListener("mousedown", () => {
-	// if (event.which == 1 && !pause) player.status.atk.enable = false;
 });

@@ -1,14 +1,58 @@
-let mp_text = document.querySelectorAll(".mp-text");
-
 var mapImage = new Image();
 mapImage.src = "./source/map.png";
 
 var map = {
-	x: -280,
+	x: -270,
 	y: -290,
 	width: 6400, 
-	height: 5120,
+	height: 5120
 };
+
+class Boundary {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+		this.size = 40;
+	}
+	draw() {
+		ctx.fillStyle = "red";
+		ctx.fillRect(this.x, this.y, this.size, this.size);
+	}
+	check_collision(playerX, playerY, playerTile) {
+		return this.x + this.size > playerX &&
+		playerX + playerTile > this.x &&
+		playerY + playerTile > this.y &&
+		this.y + this.size > playerY;
+	}
+}
+
+var temp = [];
+var boundary_coord = [];
+var boundaries = [];
+
+function create_boundary() {
+	for (let i = 0; i < boundary.length; i += 100) {
+	    temp.push(boundary.slice(i, i + 100));
+	}
+	for(let y = 0; y < temp.length; y++) {
+      	for (let x = 0; x < temp[y].length; x++) {
+	   		if (temp[y][x] == 1) boundary_coord.push([x * 64 + map.x + 10, y * 64 + map.y + 10]);
+		}
+	}
+	boundary_coord.forEach(coord => boundaries.push(new Boundary (coord[0], coord[1])));
+}
+
+create_boundary();
+
+function if_collide(playerX, playerY, playerTile) {
+	for (let i = 0; i < boundaries.length; i++) {
+		if (boundaries[i].check_collision(playerX, playerY, playerTile)) {
+			return true;
+		}
+	}
+}
+
+let mp_text = document.querySelectorAll(".mp-text");
 
 var control = {
 	movement: {
@@ -53,26 +97,42 @@ class Player {
 		this.hpRegenCounter = 0;
 	}
 	move_up() {
+		if (if_collide(this.position.current.x, this.position.current.y - this.status.spd, this.image.tile_size)) return;
 		if (this.position.current.y > this.position.initial.y) this.position.current.y -= this.status.spd;
-		else if (map.y < 0) map.y += this.status.spd;
+		else if (map.y < 0) {
+			map.y += this.status.spd;
+			boundaries.forEach(boundary => boundary.y += this.status.spd);
+		}
 		else if (this.position.current.y > 0) this.position.current.y -= this.status.spd;
 		this.direction = 1 + this.isAtk;
 	}
 	move_down() {
+		if (if_collide(this.position.current.x, this.position.current.y + this.status.spd, this.image.tile_size)) return;
 		if (this.position.current.y < this.position.initial.y) this.position.current.y += this.status.spd;
-		else if (map.y > canvas.height - map.height) map.y -= this.status.spd;
+		else if (map.y > canvas.height - map.height) {
+			map.y -= this.status.spd;
+			boundaries.forEach(boundary => boundary.y -= this.status.spd);
+		}
 		else if (this.position.current.y + this.tile_size < canvas.height * 0.9 - 8) this.position.current.y += this.status.spd;
 		this.direction = 0 + this.isAtk;
 	}
 	move_left() {
+		if (if_collide(this.position.current.x - this.status.spd, this.position.current.y, this.image.tile_size)) return;
 		if (this.position.current.x > this.position.initial.x) this.position.current.x -= this.status.spd;
-		else if (map.x < 0) map.x += this.status.spd;
+		else if (map.x < 0) {
+			map.x += this.status.spd;
+			boundaries.forEach(boundary => boundary.x += this.status.spd);
+		}
 		else if (this.position.current.x > 0) this.position.current.x -= this.status.spd;
 		this.direction = 3 + this.isAtk;
 	}
 	move_right() {
+		if (if_collide(this.position.current.x + this.status.spd, this.position.current.y, this.image.tile_size)) return;
 		if (this.position.current.x < this.position.initial.x) this.position.current.x += this.status.spd;
-		else if (map.x > canvas.width - map.height) map.x -= this.status.spd;
+		else if (map.x > canvas.width - map.height) {
+			map.x -= this.status.spd;
+			boundaries.forEach(boundary => boundary.x -= this.status.spd);
+		}
 		else if (this.position.current.x + this.tile_size < canvas.width) this.position.current.x += this.status.spd;
 		this.direction = 2 + this.isAtk;
 	}
@@ -84,7 +144,6 @@ class Player {
 			else if (key_pressing.includes(control.movement[key].word) && !control.movement[key].pressing)
 				key_pressing.splice(control.movement[key].word, 1);
 		}
-		if (key_pressing.length == 0 && this.status.atk.enable) this.direction = 0;
 		switch(key_pressing[key_pressing.length - 1]) {
 			case "w": 
 				this.move_up();
@@ -120,7 +179,7 @@ class Player {
 	}
 	regenerate() {
 		let mp_text = document.querySelectorAll(".mp-text");
-		if (this.status.atk.enable) this.mpRegenCounter++;
+		if (this.status.atk.enable || this.status.mp.current == 0) this.mpRegenCounter++;
 		if (this.mpRegenCounter % (100 - (this.status.mp.regenerate * 15)) == 0 && this.status.mp.current < this.status.mp.initial) {
 			this.status.mp.current++;
 			tl.to(".mp", {width: `${this.status.mp.current / this.status.mp.initial * 100}%`, duration: .5});
@@ -153,14 +212,3 @@ function toggle_inventory() {
 		tl.fromTo(inv, {y: "0%", opacity: 1}, {y: "-10%", opacity: 0, duration: .5}, "<");
 	}
 }
-
-var class_select = {
-	knight: {
-	},
-	archer: {
-	},
-	assasin: {
-	},
-	wizard: {
-	}
-};
