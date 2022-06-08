@@ -2,10 +2,12 @@
 <html>
 <head>
 	<title>RPG game</title>
-	<link rel = "stylesheet" href = "style.css">
+	<link rel = "stylesheet" href = "css/inventory.css">
+	<link rel = "stylesheet" href = "css/hotbar.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-	<script type="text/javascript" src = "sprite.js" defer></script>
-	<script type="text/javascript" src = "game.js" defer></script>
+	<script type="text/javascript" src = "js/sprite.js" defer></script>
+	<script type="text/javascript" src = "js/game.js" defer></script>
+	<script type="text/javascript" src = "js/interface.js" defer></script>
 </head>
 <body>
 	<div id = "screen">
@@ -28,11 +30,13 @@
 				<div id = "left-inventory">
 					<div id = "options">
 						<button id = "status">- Status -</button>
-						<button id = "items">- Items -</button>
+						<button id = "items">- Resources -</button>
 					</div>
 					<div id = "skill-list"></div>
 				</div>
-				<div id = "right-inventory"></div>
+				<div id = "right-inventory">
+					<div id = "info"></div>
+				</div>
 			</div>
 		</div>
 		<div id = "hotbar">
