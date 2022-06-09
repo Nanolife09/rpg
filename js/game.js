@@ -15,12 +15,12 @@ var player = new Player({
 			regenerate: 0
 		}, 
 		mp: {
-			current: 10,
-			initial: 10,
-			regenerate: 0
+			current: 20,
+			initial: 20,
+			regenerate: 3
 		}, 
-		spd: 5,
-		luck: false
+		spd: 10,
+		luck: 0
 	}
 });
 
@@ -28,6 +28,7 @@ function animate() {
 	window.setTimeout(() => window.requestAnimationFrame(animate), 10);
 	if (!pause) {
  		ctx.drawImage(mapImage, map.x, map.y);
+		// boundaries.forEach(boundary => boundary.draw());
 		player.draw();
 	}
 }
@@ -35,6 +36,7 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (e) => {
+	e.preventDefault();
 	let key = e.key.toLowerCase();
 	switch(key) {
 		case "w": 
@@ -48,18 +50,25 @@ window.addEventListener("keydown", (e) => {
 			break;
 		case " ":
 			if (!pause) player.status.atk.enable = false;
-		break;
+			break;
+		default:
+			break;
 	}
 });
 
 window.addEventListener("keyup", (e) => {
+	e.preventDefault();
 	let key = e.key.toLowerCase();
 	switch(key) {
-		case "w": 
-		case "a":
-		case "s":
-		case "d": 
+		case "w":  case "a": case "s": case "d": 
 			control.movement[key].pressing = false; 
 		break;
 	}
 });
+
+window.onclick = () => {if (!pause) player.status.atk.enable = false };
+
+/*
+	attacking while moving fixed
+	tile collision fixed?
+*/

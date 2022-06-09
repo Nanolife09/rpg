@@ -12,17 +12,17 @@ class Boundary {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-		this.size = 40;
+		this.size = 32;
 	}
 	draw() {
 		ctx.fillStyle = "red";
 		ctx.fillRect(this.x, this.y, this.size, this.size);
 	}
 	check_collision(playerX, playerY, playerTile) {
-		return this.x + this.size > playerX &&
-		playerX + playerTile > this.x &&
-		playerY + playerTile > this.y &&
-		this.y + this.size > playerY;
+		return this.x + this.size > playerX && 
+			playerX + playerTile > this.x && 
+			playerY + playerTile > this.y && 
+			this.y + this.size > playerY;
 	}
 }
 
@@ -36,7 +36,7 @@ function create_boundary() {
 	}
 	for(let y = 0; y < temp.length; y++) {
       	for (let x = 0; x < temp[y].length; x++) {
-	   		if (temp[y][x] == 1) boundary_coord.push([x * 64 + map.x + 10, y * 64 + map.y + 10]);
+	   		if (temp[y][x] == 1) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y + 5]);
 		}
 	}
 	boundary_coord.forEach(coord => boundaries.push(new Boundary (coord[0], coord[1])));
@@ -95,8 +95,11 @@ class Player {
 		this.isAtk = 0;
 		this.mpRegenCounter = 0;
 		this.hpRegenCounter = 0;
+		document.querySelectorAll(".mp-text")[0].innerHTML = `MP: ${this.status.mp.current} / ${this.status.mp.initial}`;
+		document.querySelectorAll(".hp-text")[0].innerHTML = `HP: ${this.status.hp.current} / ${this.status.hp.initial}`;
 	}
 	move_up() {
+		this.direction = 1 + this.isAtk;
 		if (if_collide(this.position.current.x, this.position.current.y - this.status.spd, this.image.tile_size)) return;
 		if (this.position.current.y > this.position.initial.y) this.position.current.y -= this.status.spd;
 		else if (map.y < 0) {
@@ -104,9 +107,9 @@ class Player {
 			boundaries.forEach(boundary => boundary.y += this.status.spd);
 		}
 		else if (this.position.current.y > 0) this.position.current.y -= this.status.spd;
-		this.direction = 1 + this.isAtk;
 	}
 	move_down() {
+		this.direction = 0 + this.isAtk;
 		if (if_collide(this.position.current.x, this.position.current.y + this.status.spd, this.image.tile_size)) return;
 		if (this.position.current.y < this.position.initial.y) this.position.current.y += this.status.spd;
 		else if (map.y > canvas.height - map.height) {
@@ -114,9 +117,9 @@ class Player {
 			boundaries.forEach(boundary => boundary.y -= this.status.spd);
 		}
 		else if (this.position.current.y + this.tile_size < canvas.height * 0.9 - 8) this.position.current.y += this.status.spd;
-		this.direction = 0 + this.isAtk;
 	}
 	move_left() {
+		this.direction = 3 + this.isAtk;
 		if (if_collide(this.position.current.x - this.status.spd, this.position.current.y, this.image.tile_size)) return;
 		if (this.position.current.x > this.position.initial.x) this.position.current.x -= this.status.spd;
 		else if (map.x < 0) {
@@ -124,9 +127,9 @@ class Player {
 			boundaries.forEach(boundary => boundary.x += this.status.spd);
 		}
 		else if (this.position.current.x > 0) this.position.current.x -= this.status.spd;
-		this.direction = 3 + this.isAtk;
 	}
 	move_right() {
+		this.direction = 2 + this.isAtk;
 		if (if_collide(this.position.current.x + this.status.spd, this.position.current.y, this.image.tile_size)) return;
 		if (this.position.current.x < this.position.initial.x) this.position.current.x += this.status.spd;
 		else if (map.x > canvas.width - map.height) {
@@ -134,10 +137,9 @@ class Player {
 			boundaries.forEach(boundary => boundary.x -= this.status.spd);
 		}
 		else if (this.position.current.x + this.tile_size < canvas.width) this.position.current.x += this.status.spd;
-		this.direction = 2 + this.isAtk;
 	}
 	move(control) {
-		if (!this.status.atk.enable && this.status.mp.current > 0) return;
+		if (this.status.atk.attacking) return;
 		for (var key in control.movement) {
 			if (control.movement[key].pressing && !key_pressing.includes(control.movement[key].word))
 				key_pressing.push(control.movement[key].word);
@@ -174,6 +176,7 @@ class Player {
 		else if (this.animation == this.image.frame - 1) {
 			this.status.atk.enable = true;
 			this.status.atk.attacking = false;
+			this.direction -= this.isAtk;
 			this.isAtk = 0;
 		}
 	}
@@ -187,8 +190,8 @@ class Player {
 		}
 	}
 	draw() {
-		this.attack();
 		this.move(control);
+		this.attack();
 		this.regenerate();
 		var tile_size = this.image.src.width / this.image.frame;
 		this.total_frame++;

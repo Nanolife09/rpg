@@ -31,13 +31,23 @@
 			<div id = "item-container">
 				<div id = "left-inventory">
 					<div id = "options">
-						<button id = "status">- Status -</button>
-						<button id = "items">- Resources -</button>
+						<button id = "status" onclick = "show_info('#status-info', 'grid')">- ステータス -</button>
+						<button id = "items" onclick = "show_info('#resource-info', 'flex')">- 資源 -</button>
 					</div>
 					<div id = "skill-list"></div>
 				</div>
 				<div id = "right-inventory">
-					<div id = "info"></div>
+					<div id = "info">
+						<div id = "status-info">
+							<h1>攻撃力: </h1>
+							<h1>攻撃速度: </h1>
+							<h1>HP回復: </h1>
+							<h1>MP回復: </h1>
+							<h1>移動速度: </h1>
+							<h1>幸運: </h1>
+						</div>
+						<div id = "resource-info"></div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -17,3 +17,8 @@ class Inventory extends GUI {
 	constructor() {
 	}
 }
+
+function show_info(element, style) {
+	document.querySelectorAll("#info > *").forEach(e => e.style.display = "none");
+	document.querySelector(element).style.display = style;
+}
