@@ -50,6 +50,9 @@ window.addEventListener("keydown", (e) => {
 		case " ":
 			if (!pause) player.status.atk.enable = false;
 			break;
+		case "1": case "2": case "3": case "4": case "5":
+			use_hotbar(key);
+		break;
 		default:
 			break;
 	}

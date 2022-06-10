@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>RPG game</title>
-	<link rel = "stylesheet" href = "css/inventory.css">
-	<link rel = "stylesheet" href = "css/hotbar.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-	<script type="text/javascript" src = "js/config.js" defer></script>
-	<script type="text/javascript" src = "js/collision.js" defer></script>
-	<script type="text/javascript" src = "js/sprite.js" defer></script>
-	<script type="text/javascript" src = "js/game.js" defer></script>
-	<script type="text/javascript" src = "js/interface.js" defer></script>
-</head>
-<body>
-	<div id = "screen">
-		<canvas></canvas>
-		<div id = "inventory">
-			<div id = "profile">
-				<h1>Nanolife09_</h1><h1>魔術師</h1><h1>Lv: 1</h1>
+	<head>
+		<title>RPG game</title>
+		<link rel = "stylesheet" href = "css/inventory.css">
+		<link rel = "stylesheet" href = "css/hotbar.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+		<script type="text/javascript" src = "js/config.js" defer></script>
+		<script type="text/javascript" src = "js/collision.js" defer></script>
+		<script type="text/javascript" src = "js/sprite.js" defer></script>
+		<script type="text/javascript" src = "js/game.js" defer></script>
+		<script type="text/javascript" src = "js/interface.js" defer></script>
+	</head>
+	<body>
+		<div id = "screen">
+			<canvas></canvas>
+			<div id = "inventory">
+				<div id = "profile">
+					<h1>Nanolife09_</h1><h1>魔術師</h1><h1>Lv: 1</h1>
+				</div>
+				<div class = "status">
+					<div class = "hp-container">
+						<h1 class = "hp-text">HP: 10 / 10</h1>
+						<div class = "bar"><div class = "hp"></div></div>
+					</div>
+					<div class = "mp-container">
+						<h1 class = "mp-text">MP: 10 / 10</h1>
+						<div class = "bar"><div class = "mp"></div></div>
+					</div>
+				</div>
+				<div id = "item-container">
+					<div id = "left-inventory">
+						<div id = "options">
+							<button id = "status" onclick = "show_info('#status-info', 'grid')">- ステータス -</button>
+							<button id = "items" onclick = "show_info('#resource-info', 'flex')">- 資源 -</button>
+						</div>
+						<div id = "skill-list"></div>
+					</div>
+					<div id = "right-inventory">
+						<div id = "info">
+							<div id = "status-info">
+								<h1>攻撃力: </h1>
+								<h1>攻撃速度: </h1>
+								<h1>HP回復: </h1>
+								<h1>MP回復: </h1>
+								<h1>移動速度: </h1>
+								<h1>幸運: </h1>
+							</div>
+							<div id = "resource-info"></div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class = "status">
+			<div id = "hotbar">
 				<div class = "hp-container">
-					<h1 class = "hp-text">HP: 10 / 10</h1>
+					<h1 class = "hp-text">HP: </h1>
 					<div class = "bar"><div class = "hp"></div></div>
 				</div>
+				<div id = "skill-container">
+					<div class = "skill"></div>
+					<div class = "skill"></div>
+					<div class = "skill"></div>
+					<div class = "skill"></div>
+					<div class = "skill"></div>
+				</div>
 				<div class = "mp-container">
-					<h1 class = "mp-text">MP: 10 / 10</h1>
+					<h1 class = "mp-text">MP: </h1>
 					<div class = "bar"><div class = "mp"></div></div>
 				</div>
 			</div>
-			<div id = "item-container">
-				<div id = "left-inventory">
-					<div id = "options">
-						<button id = "status" onclick = "show_info('#status-info', 'grid')">- ステータス -</button>
-						<button id = "items" onclick = "show_info('#resource-info', 'flex')">- 資源 -</button>
-					</div>
-					<div id = "skill-list"></div>
-				</div>
-				<div id = "right-inventory">
-					<div id = "info">
-						<div id = "status-info">
-							<h1>攻撃力: </h1>
-							<h1>攻撃速度: </h1>
-							<h1>HP回復: </h1>
-							<h1>MP回復: </h1>
-							<h1>移動速度: </h1>
-							<h1>幸運: </h1>
-						</div>
-						<div id = "resource-info"></div>
-					</div>
-				</div>
-			</div>
 		</div>
-		<div id = "hotbar">
-			<div class = "hp-container">
-				<h1 class = "hp-text">HP: </h1>
-				<div class = "bar"><div class = "hp"></div></div>
-			</div>
-			<div id = "skill-container">
-				<div class = "skill"></div>
-				<div class = "skill"></div>
-				<div class = "skill"></div>
-				<div class = "skill"></div>
-				<div class = "skill"></div>
-			</div>
-			<div class = "mp-container">
-				<h1 class = "mp-text">MP: </h1>
-				<div class = "bar"><div class = "mp"></div></div>
-			</div>
-		</div>
-	</div>
-</body>
+	</body>
 </html>

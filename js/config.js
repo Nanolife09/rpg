@@ -9,6 +9,7 @@ const status_info = document.querySelectorAll("#status-info > *");
 
 const inv = document.querySelector("#inventory");
 const hotbar = document.querySelector("#hotbar");
+const hotbar_skills = document.querySelectorAll(".skill");
 
 var mapImage = new Image();
 mapImage.src = "./source/map.png";
@@ -35,12 +36,14 @@ var control = {
 		"w": {pressing: false, word: "w"},
 		"a": {pressing: false, word: "a"},
 		"s": {pressing: false, word: "s"},
-		"d": {pressing: false, word: "d"},
+		"d": {pressing: false, word: "d"}
 	},
 	"e": {pressed: false, word: "e"}
 };
 
 var key_pressing = [];
+
+var skill_used = false;
 
 var pause = false;
 
