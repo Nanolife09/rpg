@@ -1,13 +1,3 @@
-var mapImage = new Image();
-mapImage.src = "./source/map.png";
-
-var map = {
-	x: -270,
-	y: -290,
-	width: 6400, 
-	height: 5120
-};
-
 class Boundary {
 	constructor(x, y) {
 		this.x = x;
@@ -26,10 +16,6 @@ class Boundary {
 	}
 }
 
-var temp = [];
-var boundary_coord = [];
-var boundaries = [];
-
 function create_boundary() {
 	for (let i = 0; i < boundary.length; i += 100) {
 	    temp.push(boundary.slice(i, i + 100));
@@ -46,29 +32,9 @@ create_boundary();
 
 function if_collide(playerX, playerY, playerTile) {
 	for (let i = 0; i < boundaries.length; i++) {
-		if (boundaries[i].check_collision(playerX, playerY, playerTile)) {
-			return true;
-		}
+		if (boundaries[i].check_collision(playerX, playerY, playerTile)) return true;
 	}
 }
-
-let mp_text = document.querySelectorAll(".mp-text");
-
-var control = {
-	movement: {
-		"w": {pressing: false, word: "w"},
-		"a": {pressing: false, word: "a"},
-		"s": {pressing: false, word: "s"},
-		"d": {pressing: false, word: "d"},
-	},
-	"e": {pressed: false, word: "e"}
-};
-
-var key_pressing = [];
-
-var pause = false;
-
-var tl = gsap.timeline();
 
 class Player {
 	constructor({src, status}) {
@@ -80,11 +46,11 @@ class Player {
 		this.position = {
 			current: {
 				x: canvas.width / 2 - this.image.src.width / 2,
-				y: canvas.height / 2
+				y: canvas.height / 2 - this.image.src.height / 2
 			},
 			initial: {
 				x: canvas.width / 2 - this.image.src.width / 2,
-				y: canvas.height / 2
+				y: canvas.height / 2 - this.image.src.height / 2
 			}
 		}; 
 		this.status = status;
@@ -97,6 +63,12 @@ class Player {
 		this.hpRegenCounter = 0;
 		document.querySelectorAll(".mp-text")[0].innerHTML = `MP: ${this.status.mp.current} / ${this.status.mp.initial}`;
 		document.querySelectorAll(".hp-text")[0].innerHTML = `HP: ${this.status.hp.current} / ${this.status.hp.initial}`;
+		status_info[0].innerHTML = `攻撃力: ${this.status.atk.dmg}`;
+		status_info[1].innerHTML = `攻撃速度: ${this.status.atk.spd}`;
+		status_info[2].innerHTML = `HP回復: ${this.status.hp.regenerate}`;
+		status_info[3].innerHTML = `MP回復: ${this.status.mp.regenerate}`;
+		status_info[4].innerHTML = `移動速度: ${this.status.spd}`;
+		status_info[5].innerHTML = `幸運: ${this.status.luck}`;
 	}
 	move_up() {
 		this.direction = 1 + this.isAtk;
@@ -181,7 +153,6 @@ class Player {
 		}
 	}
 	regenerate() {
-		let mp_text = document.querySelectorAll(".mp-text");
 		if (this.status.atk.enable || this.status.mp.current == 0) this.mpRegenCounter++;
 		if (this.mpRegenCounter % (100 - (this.status.mp.regenerate * 15)) == 0 && this.status.mp.current < this.status.mp.initial) {
 			this.status.mp.current++;
@@ -190,28 +161,15 @@ class Player {
 		}
 	}
 	draw() {
-		this.move(control);
-		this.attack();
-		this.regenerate();
 		var tile_size = this.image.src.width / this.image.frame;
 		this.total_frame++;
 		this.animation = (this.status.atk.enable) ? Math.floor((this.total_frame / (15 - this.status.spd)) % this.image.frame) : 
 			Math.floor((this.total_frame / (40 - this.status.atk.spd * 5)) % this.image.frame);
 		ctx.drawImage(this.image.src, this.animation * tile_size, this.direction * this.tile_size, tile_size, tile_size, 
-			this.position.current.x, this.position.current.y, tile_size, tile_size);
-	}
-}
-
-function toggle_inventory() {
-	let inv = document.querySelector("#inventory");
-	let hotbar = document.querySelector("#hotbar");
-	pause = !pause;
-	if (pause) {
-		tl.fromTo(inv, {y: "-10%", opacity: 0}, {y: "0%", opacity: 1, duration: .5});
-		tl.fromTo(hotbar, {y: "0%", opacity: 1}, {y: "10%", opacity: 0, duration: .5}, "<");
-	}
-	else {
-		tl.fromTo(hotbar, {y: "10%", opacity: 0}, {y: "0%", opacity: 1, duration: .5});
-		tl.fromTo(inv, {y: "0%", opacity: 1}, {y: "-10%", opacity: 0, duration: .5}, "<");
+			this.position.current.x, this.position.current.y, 64, 64);
+		this.regenerate();
+		ctx.drawImage(foregroundImage, map.x, map.y);
+		this.move(control);
+		this.attack();
 	}
 }

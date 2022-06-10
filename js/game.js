@@ -1,5 +1,3 @@
-var playerImage = new Image();
-playerImage.src = "source/player.png";
 /*
 	regen: min: 1 max: 3
 	spd: min: 3 max: 5.5
@@ -28,7 +26,7 @@ function animate() {
 	window.setTimeout(() => window.requestAnimationFrame(animate), 10);
 	if (!pause) {
  		ctx.drawImage(mapImage, map.x, map.y);
-		// boundaries.forEach(boundary => boundary.draw());
+		//boundaries.forEach(boundary => boundary.draw());
 		player.draw();
 	}
 }
@@ -47,6 +45,7 @@ window.addEventListener("keydown", (e) => {
 			break;
 		case "e":
 			toggle_inventory();
+			control[key].pressed = true; 
 			break;
 		case " ":
 			if (!pause) player.status.atk.enable = false;
@@ -63,12 +62,10 @@ window.addEventListener("keyup", (e) => {
 		case "w":  case "a": case "s": case "d": 
 			control.movement[key].pressing = false; 
 		break;
+		case "e":
+			control[key].pressed = false; 
+		break;
 	}
 });
 
-window.onclick = () => {if (!pause) player.status.atk.enable = false };
-
-/*
-	attacking while moving fixed
-	tile collision fixed?
-*/
+window.onclick = () => {if (!pause) player.status.atk.enable = false};
