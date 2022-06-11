@@ -3,7 +3,7 @@
 	spd: min: 3 max: 5.5
 	atkspd: min: 4 max: 6
 */
-var player = new Player({
+var player = new Knight({
 	src: playerImage, 
 	status: {
 		atk:{enable: true, attacking: false, dmg: 0, spd: 6},

@@ -13,11 +13,6 @@ class GUI {
 	}
 }
 
-class Inventory extends GUI {
-	constructor() {
-	}
-}
-
 function toggle_inventory() {
 	if (control["e"].pressed) return;
 	pause = !pause;
@@ -40,15 +35,6 @@ function show_info(element, style) {
 function use_hotbar(number) {
 	if (hotbar_skills[number - 1].classList.contains("selected") || skill_used) return;
 	skill_used = true;
-	if (document.querySelectorAll(".selected").length != 0) {
-		tl.to(".selected", {y: "0%", duration: .1, onComplete: () => {
-			document.querySelector(".selected").classList.remove("selected");
-			hotbar_skills[number - 1].classList.add("selected");
-			tl.to(".selected", {y: "-20%", duration: .1, onComplete: () => skill_used = false});
-		}});
-	}
-	else {
-		hotbar_skills[number - 1].classList.add("selected");
-		tl.to(".selected", {y: "-20%", duration: .1, onComplete: () => skill_used = false});
-	}
+	tl.to(hotbar_skills[number - 1], {y: "-20%", duration: .3});
+	tl.to(hotbar_skills[number - 1], {y: "0%", durtation: .3, onCompete: () => skill_used = false});
 }

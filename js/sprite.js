@@ -173,3 +173,94 @@ class Player {
 		this.attack();
 	}
 }
+
+class Knight extends Player {
+	constructor({src, status}) {
+		super({src, status});
+	}
+	normal() {
+
+	}
+	buff() {
+
+	}
+	enchant() {
+
+	}
+	impact() {
+
+	}
+	smite() {
+
+	}
+	spin() {
+
+	}
+}
+
+class Archer extends Player {
+	constructor({src, status}) {
+		super({src, status});
+	}
+	normal() {
+
+	}
+	multi() {
+
+	}
+	rapid() {
+
+	}
+	charge() {
+
+	}
+	dynamite() {
+
+	}
+	bait() {
+
+	}
+}
+
+class Assasin extends Player {
+	constructor({src, status}) {
+		super({src, status});
+	}
+	normal() {
+
+	}
+	charge() {
+
+	}
+	duplicate() {
+
+	}
+	shadow() {
+
+	}
+	sacrifice() {
+		
+	}
+}
+
+class Wizard extends Player {
+	constructor({src, status}) {
+		super({src, status});
+	}
+	normal() {
+
+	}
+
+	fireball() {
+	}
+
+	storm() {
+
+	}
+	invincible() {
+
+	}
+	freeze() {
+
+	}
+}
