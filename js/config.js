@@ -38,7 +38,8 @@ var control = {
 		"s": {pressing: false, word: "s"},
 		"d": {pressing: false, word: "d"}
 	},
-	"e": {pressed: false, word: "e"}
+	"e": {pressed: false, word: "e"},
+	"f": {pressed: false, word: "f"}
 };
 
 var key_pressing = [];
