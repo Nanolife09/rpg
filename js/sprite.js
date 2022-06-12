@@ -34,6 +34,12 @@ function if_collide(playerX, playerY, playerTile) {
 	for (let i = 0; i < boundaries.length; i++) {
 		if (boundaries[i].check_collision(playerX, playerY, playerTile)) return true;
 	}
+	for (let i = 0; i < NPCs.length; i++) {
+		if (NPCs[i].check_collision(playerX, playerY, playerTile)) {
+            // show hint
+            return true;
+        }
+	}
 }
 
 class Player {
@@ -77,6 +83,7 @@ class Player {
 		else if (map.y < 0) {
 			map.y += this.status.spd;
 			boundaries.forEach(boundary => boundary.y += this.status.spd);
+			NPCs.forEach(npc => npc.y += this.status.spd);
 		}
 		else if (this.position.current.y > 0) this.position.current.y -= this.status.spd;
 	}
@@ -87,6 +94,7 @@ class Player {
 		else if (map.y > canvas.height - map.height) {
 			map.y -= this.status.spd;
 			boundaries.forEach(boundary => boundary.y -= this.status.spd);
+			NPCs.forEach(npc => npc.y -= this.status.spd);
 		}
 		else if (this.position.current.y + this.tile_size < canvas.height * 0.9 - 8) this.position.current.y += this.status.spd;
 	}
@@ -97,6 +105,7 @@ class Player {
 		else if (map.x < 0) {
 			map.x += this.status.spd;
 			boundaries.forEach(boundary => boundary.x += this.status.spd);
+			NPCs.forEach(npc => npc.x += this.status.spd);
 		}
 		else if (this.position.current.x > 0) this.position.current.x -= this.status.spd;
 	}
@@ -107,6 +116,7 @@ class Player {
 		else if (map.x > canvas.width - map.height) {
 			map.x -= this.status.spd;
 			boundaries.forEach(boundary => boundary.x -= this.status.spd);
+			NPCs.forEach(npc => npc.x -= this.status.spd);
 		}
 		else if (this.position.current.x + this.tile_size < canvas.width) this.position.current.x += this.status.spd;
 	}
