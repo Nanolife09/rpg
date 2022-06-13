@@ -1,18 +1,19 @@
 class Boundary {
-	constructor(x, y) {
+	constructor({x, y, width, height}) {
 		this.x = x;
 		this.y = y;
-		this.size = 32;
+		this.width = width;
+		this.height = height;
 	}
 	draw() {
 		ctx.fillStyle = "red";
-		ctx.fillRect(this.x, this.y, this.size, this.size);
+		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 	check_collision(playerX, playerY, playerTile) {
-		return this.x + this.size > playerX && 
+		return this.x + this.width > playerX && 
 			playerX + playerTile > this.x && 
 			playerY + playerTile > this.y && 
-			this.y + this.size > playerY;
+			this.y + this.height > playerY;
 	}
 }
 
@@ -22,10 +23,36 @@ function create_boundary() {
 	}
 	for(let y = 0; y < temp.length; y++) {
       	for (let x = 0; x < temp[y].length; x++) {
-	   		if (temp[y][x] == 1) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y + 5]);
+      		// top left
+	   		if (temp[y][x] == 12) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y + 35, 20, 64]);
+	   		// top
+	   		if (temp[y][x] == 13) boundary_coord.push([x * 64 + map.x, y * 64 + map.y + 35, 64, 5]);
+	   		// top right
+	   		if (temp[y][x] == 14) boundary_coord.push([x * 64 + map.x + 25, y * 64 + map.y + 35, 20, 64]);
+	   		// left
+	   		if (temp[y][x] == 17) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y, 20, 60]);
+	   		// bottom
+	   		if (temp[y][x] == 23) boundary_coord.push([x * 64 + map.x, y * 64 + map.y + 10, 64, 5]);
+	   		// rock
+	   		if (temp[y][x] == 126) boundary_coord.push([x * 64 + map.x + 20, y * 64 + map.y + 10, 20, 20]);
+	   		// tree
+	   		if (temp[y][x] == 123) boundary_coord.push([x * 64 + map.x + 10, y * 64 + map.y, 25, 25]);
+	   		// house
+	   		if (temp[y][x] == 503) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y, 30, 30]);
+	   		// water
+	   		if (temp[y][x] == 111) boundary_coord.push([x * 64 + map.x + 10, y * 64 + map.y, 40, 40]);
+	   		// boat
+	   		if (temp[y][x] == 932) boundary_coord.push([x * 64 + map.x + 10, y * 64 + map.y, 40, 40]);
+	   		// right
+	   		if (temp[y][x] == 19) boundary_coord.push([x * 64 + map.x + 25, y * 64 + map.y, 20, 74]);
+	   		// bottom right
+	   		if (temp[y][x] == 24) boundary_coord.push([x * 64 + map.x + 25, y * 64 + map.y - 55, 20, 70]);
+	   		// bottom left
+	   		if (temp[y][x] == 22) boundary_coord.push([x * 64 + map.x + 15, y * 64 + map.y - 54, 20, 70]);
 		}
 	}
-	boundary_coord.forEach(coord => boundaries.push(new Boundary (coord[0], coord[1])));
+	boundary_coord.forEach(coord => boundaries.push(new Boundary ({x: coord[0], y: coord[1], width: coord[2], height: coord[3]})));
+	console.log(boundary_coord);
 }
 
 create_boundary();

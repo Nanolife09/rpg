@@ -36,8 +36,17 @@ function animate() {
 	window.setTimeout(() => window.requestAnimationFrame(animate), 10);
 	if (!pause) {
  		ctx.drawImage(mapImage, map.x, map.y);
+<<<<<<< Updated upstream
 		// boundaries.forEach(boundary => boundary.draw());
         NPCs.forEach(NPC => NPC.draw());
+=======
+<<<<<<< HEAD
+		boundaries.forEach(boundary => boundary.draw());
+=======
+		// boundaries.forEach(boundary => boundary.draw());
+        NPCs.forEach(NPC => NPC.draw());
+>>>>>>> da2cca8bcdb06c1d0841a675d51417ecf00b361d
+>>>>>>> Stashed changes
 		player.draw();
 	}
 }
