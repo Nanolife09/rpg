@@ -38,3 +38,23 @@ function use_hotbar(number) {
 	tl.to(hotbar_skills[number - 1], {y: "-20%", duration: .3});
 	tl.to(hotbar_skills[number - 1], {y: "0%", durtation: .3, onCompete: () => skill_used = false});
 }
+
+function show_log() {
+    log.style.display = "flex";
+}
+
+function hide_log() {
+    log.style.display = "none";
+}
+
+function write_log(text) {
+    log.innerText = text;
+}
+
+function show_hint(text) {
+    hint.innerText = text;
+}
+
+function clear_hint() {
+    hint.innerText = "";
+}

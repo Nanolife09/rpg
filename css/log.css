@@ -1,0 +1,16 @@
+#log {
+    position: absolute;
+    bottom: 11%;
+    display: none;
+    border: 5px solid brown;
+    border-radius: 5px;
+    border-style: inset;
+    background-color: rgba(222, 184, 135, 0.9);
+    width: 700px;
+    height: 80px;
+    font-size: 20px;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}

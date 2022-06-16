@@ -1,0 +1,12 @@
+#hint {
+    position: absolute;
+    bottom: 14%;
+    animation: blink 2s linear infinite;
+    font-size: 30px;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

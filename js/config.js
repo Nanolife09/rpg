@@ -10,6 +10,8 @@ const status_info = document.querySelectorAll("#status-info > *");
 const inv = document.querySelector("#inventory");
 const hotbar = document.querySelector("#hotbar");
 const hotbar_skills = document.querySelectorAll(".skill");
+const log = document.querySelector("#log");
+const hint = document.querySelector("#hint");
 
 var mapImage = new Image();
 mapImage.src = "./source/map.png";

@@ -36,22 +36,28 @@ function animate() {
 	window.setTimeout(() => window.requestAnimationFrame(animate), 10);
 	if (!pause) {
  		ctx.drawImage(mapImage, map.x, map.y);
-<<<<<<< Updated upstream
 		// boundaries.forEach(boundary => boundary.draw());
-        NPCs.forEach(NPC => NPC.draw());
-=======
-<<<<<<< HEAD
-		boundaries.forEach(boundary => boundary.draw());
-=======
-		// boundaries.forEach(boundary => boundary.draw());
-        NPCs.forEach(NPC => NPC.draw());
->>>>>>> da2cca8bcdb06c1d0841a675d51417ecf00b361d
->>>>>>> Stashed changes
+        NPCs.forEach(NPC => {
+            NPC.draw()
+            if (NPC.check_interact(
+                player.position.current.x,
+                player.position.current.y,
+                player.image.tile_size)) {
+                if (!NPC.interacting) {
+                    show_hint("press [F] to interact with " + NPC.name);
+                }
+            } else {
+                // this is SO bad i just gtg. //TODO fix this
+                NPC.interacting = false;
+                clear_hint();
+                hide_log();
+            }
+        });
 		player.draw();
-	}
+    }
 }
 
-animate();
+window.onload = animate;
 
 window.addEventListener("keydown", (e) => {
 	e.preventDefault();
@@ -75,11 +81,10 @@ window.addEventListener("keydown", (e) => {
                     player.position.current.y,
                     player.image.tile_size)
                 ) {
+                    clear_hint();
                     npc.interact();
                     break; // only interact with one NPC at a time
                 }
-                else 
-                    console.log('nope')
             }
             control[key].pressed = true;
             break;
@@ -88,7 +93,9 @@ window.addEventListener("keydown", (e) => {
 			break;
 		case "1": case "2": case "3": case "4": case "5":
 			use_hotbar(key);
-		break;
+            break;
+        case "enter":
+            break;
 		default:
 			break;
 	}
